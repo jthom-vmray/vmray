@@ -29,8 +29,6 @@ from vmray_consts import (
     ACTION_ID_VMRAY_GET_SCREENSHOTS,
     ACTION_ID_VMRAY_GET_VTIS,
     DEFAULT_TIMEOUT,
-    INDEX_LOG_DELIMITER,
-    INDEX_LOG_FILE_NAME_POSITION,
     SAMPLE_TYPE_MAPPING,
     VMRAY_DEFAULT_PASSWORD,
     VMRAY_ERROR_ADD_VAULT,
@@ -64,6 +62,7 @@ from vmray_consts import (
     VMRAY_PARSE_ERROR_MSG,
     VMRAY_SUCC_CONNECTIVITY_TEST,
 )
+from vmray_utils import ScreenshotLogEntry  # pylint: disable=wrong-import-order
 
 
 # pylint: enable=import-error
@@ -912,8 +911,11 @@ class VMRayConnector(BaseConnector):
         try:
             with archive.open("screenshots/index.log") as index_log:
                 for line in io.TextIOWrapper(index_log, "utf-8"):
-                    file_name = line.split(INDEX_LOG_DELIMITER)[INDEX_LOG_FILE_NAME_POSITION].strip()
-                    ordered_screenshots.append(file_name)
+                    log_entry = ScreenshotLogEntry.parse(line)
+                    if log_entry.filename in ordered_screenshots:
+                        continue
+
+                    ordered_screenshots.append(log_entry.filename)
         except Exception as exc:
             error_message = self._get_error_message_from_exception(exc)
             return (action_result.set_status(phantom.APP_ERROR, f"{VMRAY_ERROR_EXTRACTING_SCREENSHOTS}. {error_message}"), None)
