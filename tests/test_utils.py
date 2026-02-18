@@ -1,28 +1,42 @@
+# Copyright (c) 2026 Splunk Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 import pytest
 
 from vmray_utils import ScreenshotLogEntry
+
 
 TEST_CASES = [
     {
         "timestamp": 0,
         "file_size": 83811,
-        "md5": "795acf142c6c5cd691591ae5ec1ee8eb",
-        "sha1": "3ec5d670fe474878926e1d3fd3a0116454428df1",
-        "sha256": "cfd0258707fbcdb838f53031a4cb6cd33981bcf83ff9346814240ab195193487",
+        "md5": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "sha1": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     },
     {
         "timestamp": 39235,
         "file_size": 66172,
-        "md5": "2b70f8e09150e2bec6bf403014fcbacc",
-        "sha1": "7f951a15e976b2c38df47eb307a43344e3d30c96",
-        "sha256": "75d4de94fafff2eabc93a0e061a90775e3300a05e00677d71a78f5f71bfb61c3",
+        "md5": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "sha1": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     },
     {
         "timestamp": 41186,
         "file_size": 49366,
-        "md5": "f2579bcece68f228bffa410c1de48160",
-        "sha1": "b04da642fae7b5b37395b21d1eb01a9c5d1b84c3",
-        "sha256": "85350234c3948b388317114bffb158bd2c68a2d1839730e0d6b00053f6bb2af1",
+        "md5": "cccccccccccccccccccccccccccccccc",
+        "sha1": "cccccccccccccccccccccccccccccccccccccccc",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
     },
 ]
 
