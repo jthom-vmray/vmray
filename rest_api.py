@@ -10,7 +10,6 @@ import datetime
 import os.path
 
 import requests
-import six
 
 from vmray_version import __VERSION__
 
@@ -63,12 +62,6 @@ def handle_rest_api_result(result):
 
 
 def _is_string_ascii_encodeable(input):
-    if six.PY2:
-        try:
-            input.decode("ASCII")
-            return True
-        except UnicodeDecodeError:
-            return False
     try:
         input.encode("ascii")
         return True
@@ -103,11 +96,11 @@ class VMRayRESTAPI:
         file_params = {}
 
         if params is not None:
-            for key, value in six.iteritems(params):
+            for key, value in params.items():
                 if isinstance(value, (datetime.date, datetime.datetime, float, int)):
-                    req_params[key] = six.text_type(value)
-                elif isinstance(value, six.string_types):
-                    req_params[key] = six.text_type(value)
+                    req_params[key] = str(value)
+                elif isinstance(value, str):
+                    req_params[key] = str(value)
                 elif hasattr(value, "read"):
                     filename = os.path.split(value.name)[1]
                     if not _is_string_ascii_encodeable(filename):

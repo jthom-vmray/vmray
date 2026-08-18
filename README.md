@@ -1,10 +1,10 @@
 # VMRay
 
-Publisher: VMRay \
-Connector Version: 2.6.2 \
-Product Vendor: VMRay GmbH \
-Product Name: VMRay Platform \
-Minimum Product Version: 5.5.0
+Publisher: VMRay <br>
+Connector Version: 2.6.2 <br>
+Product Vendor: VMRay GmbH <br>
+Product Name: VMRay Platform <br>
+Minimum Product Version: 6.3.0
 
 This app enables you to detonate files and URLs, and perform investigative actions, using the VMRay Platform, thereby giving you automated analysis and advanced threat detection through an agentless hypervisor-based sandbox
 
@@ -30,21 +30,21 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity \
-[get file](#action-get-file) - Download a file from the VMRay Platform and add it to the vault \
-[detonate file](#action-detonate-file) - Detonate file in the VMRay Platform \
-[detonate url](#action-detonate-url) - Detonate a URL in the VMRay Platform \
-[get iocs](#action-get-iocs) - Get the iocs for a sample \
-[get vtis](#action-get-vtis) - Get the vtis for a sample \
-[get report](#action-get-report) - Get the report(s) for a submission \
-[get info](#action-get-info) - Get information of a specific sample \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity <br>
+[get file](#action-get-file) - Download a file from the VMRay Platform and add it to the vault <br>
+[detonate file](#action-detonate-file) - Detonate file in the VMRay Platform <br>
+[detonate url](#action-detonate-url) - Detonate a URL in the VMRay Platform <br>
+[get iocs](#action-get-iocs) - Get the iocs for a sample <br>
+[get vtis](#action-get-vtis) - Get the vtis for a sample <br>
+[get report](#action-get-report) - Get the report(s) for a submission <br>
+[get info](#action-get-info) - Get information of a specific sample <br>
 [get screenshots](#action-get-screenshots) - Get screenshots from an analysis
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -59,7 +59,7 @@ No Output
 
 Download a file from the VMRay Platform and add it to the vault
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 Downloads the file with the given hash from the VMRay Platform and adds it to the vault. This action returns a vault id which can be used to detonate the file.
@@ -86,7 +86,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Detonate file in the VMRay Platform
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 The <b>file_name</b> parameter overrides the filename, if none is given the app tries to get the filename from the vaults metadata. The <b>type</b> overrides the automatic detection of the VMRay Platform. The <b>config</b> parameter specifies additional configuration options passed to the VMRay Platform (See user_config in the REST API documentation). With <b>jobrules</b> you can specify custom jobrule entries (See jobrule_enries in the REST API documentation). The <b>timeout</b> parameter specifies the time to wait for the submission to be finished before aborting this action (default is 600 seconds).
@@ -202,7 +202,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Detonate a URL in the VMRay Platform
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 See <b>detonate file</b> for a detailed parameter description. The <b>timeout</b> parameter specifies the time to wait for the submission to be finished before aborting this action (default is 600 seconds).
@@ -314,7 +314,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get the iocs for a sample
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 This action requires a <b>sample_id</b>. The <b>timeout</b> parameter specifies the time to wait for the vtis to be finished before aborting this action. The <b>timeout</b> is specified in seconds. Zero indicates no wait, hence the action will return immediately. If this option is not set it will default to a ten-minute timeout. The <b>all_artifacts</b> parameter specifies whether to consider all artifacts when retrieving a sample's iocs.
@@ -356,7 +356,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get the vtis for a sample
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 This action requires a <b>sample_id</b>. The <b>timeout</b> parameter specifies the time to wait for the vtis to be finished before aborting this action. The <b>timeout</b> is specified in seconds. Zero indicates no wait, hence the action will return immediately. If this option is not set it will default to a ten-minute timeout.
@@ -396,7 +396,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get the report(s) for a submission
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 This action requires a <b>submission_id</b>. The <b>timeout</b> parameter specifies the time to wait for the report to be finished before aborting this action. The <b>timeout</b> is specified in seconds. Zero indicates no wait, hence the action will return immediately. If this option is not set it will default to a five-minute timeout.
@@ -499,7 +499,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get information of a specific sample
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 This action gets information about a sample given its <b>hash</b>. See <b>get report</b> for a description of the <b>timeout</b> parameter.
@@ -550,7 +550,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get screenshots from an analysis
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 This action will download screenshots taken from a specific dynamic analysis identified by <b>analysis_id</b> and store them in the vault. The screenshots are stored with file names like <b>analysis_5_screenshot_2.png</b>. In this example, '5' represents the analysis ID from which the screenshot came, and '2' indicates that it's the third screenshot taken during the analysis, in chronological order.
