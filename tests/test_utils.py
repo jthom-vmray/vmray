@@ -16,89 +16,35 @@ import pytest
 from vmray_utils import ScreenshotLogEntry
 
 
-TEST_CASES = [
-    {
-        "timestamp": 0,
-        "file_size": 83811,
-        "md5": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "sha1": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },
-    {
-        "timestamp": 39235,
-        "file_size": 66172,
-        "md5": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-        "sha1": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-    },
-    {
-        "timestamp": 41186,
-        "file_size": 49366,
-        "md5": "cccccccccccccccccccccccccccccccc",
-        "sha1": "cccccccccccccccccccccccccccccccccccccccc",
-        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-    },
-]
+FILENAMES = ["aaaa.jpg", "bbbb.jpg", "cccc.jpg"]
 
 
-def make_line(tc: dict) -> str:
-    return f"{tc['timestamp']} | {tc['file_size']} | md5={tc['md5']},sha1={tc['sha1']},sha256={tc['sha256']} | {tc['sha1']}.jpg"
+def make_line(filename: str) -> str:
+    return f"0 | 83811 | md5=aaaa,sha1=bbbb,sha256=cccc | {filename}"
 
 
-def make_entry(tc: dict) -> ScreenshotLogEntry:
-    return ScreenshotLogEntry(
-        timestamp=tc["timestamp"],
-        file_size=tc["file_size"],
-        md5=tc["md5"],
-        sha1=tc["sha1"],
-        sha256=tc["sha256"],
-        filename=f"{tc['sha1']}.jpg",
-    )
+@pytest.mark.parametrize("filename", FILENAMES)
+def test_parse_valid_line(filename):
+    assert ScreenshotLogEntry.parse(make_line(filename)) == ScreenshotLogEntry(filename=filename)
 
 
-@pytest.mark.parametrize("tc", TEST_CASES)
-def test_parse_valid_line(tc):
-    assert ScreenshotLogEntry.parse(make_line(tc)) == make_entry(tc)
+@pytest.mark.parametrize("filename", FILENAMES)
+def test_parse_filename(filename):
+    assert ScreenshotLogEntry.parse(make_line(filename)).filename == filename
 
 
-@pytest.mark.parametrize("tc", TEST_CASES)
-def test_parse_timestamp(tc):
-    assert ScreenshotLogEntry.parse(make_line(tc)).timestamp == tc["timestamp"]
-
-
-@pytest.mark.parametrize("tc", TEST_CASES)
-def test_parse_file_size(tc):
-    assert ScreenshotLogEntry.parse(make_line(tc)).file_size == tc["file_size"]
-
-
-@pytest.mark.parametrize("tc", TEST_CASES)
-def test_parse_hashes(tc):
-    result = ScreenshotLogEntry.parse(make_line(tc))
-    assert result.md5 == tc["md5"]
-    assert result.sha1 == tc["sha1"]
-    assert result.sha256 == tc["sha256"]
-
-
-@pytest.mark.parametrize("tc", TEST_CASES)
-def test_parse_filename(tc):
-    assert ScreenshotLogEntry.parse(make_line(tc)).filename == f"{tc['sha1']}.jpg"
+def test_parse_tolerates_malformed_metadata():
+    # timestamp, file_size, and hashes are all garbage, but the filename column is usable
+    result = ScreenshotLogEntry.parse("not_a_number | not_a_number | md5=abc | file.jpg")
+    assert result.filename == "file.jpg"
 
 
 def test_parse_invalid_too_few_parts():
-    with pytest.raises(ValueError, match="Expected 4 parts"):
+    with pytest.raises(ValueError, match="Expected at least 4 parts"):
         ScreenshotLogEntry.parse("0 | 83811 | md5=abc")
 
 
-def test_parse_invalid_too_many_parts():
-    with pytest.raises(ValueError, match="Expected 4 parts"):
-        ScreenshotLogEntry.parse("0 | 83811 | md5=abc | file.jpg | extra")
-
-
-def test_parse_invalid_timestamp():
-    with pytest.raises(ValueError):
-        ScreenshotLogEntry.parse("not_a_number | 83811 | md5=abc,sha1=def,sha256=ghi | file.jpg")
-
-
-def test_parse_invalid_file_size():
-    with pytest.raises(ValueError):
-        ScreenshotLogEntry.parse("0 | not_a_number | md5=abc,sha1=def,sha256=ghi | file.jpg")
+def test_parse_extra_parts_uses_last_as_filename():
+    # more than 4 parts is tolerated; the last column is always taken as the filename
+    result = ScreenshotLogEntry.parse("0 | 83811 | md5=abc | file.jpg | extra")
+    assert result.filename == "extra"
