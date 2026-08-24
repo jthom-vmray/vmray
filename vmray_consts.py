@@ -1,6 +1,6 @@
 # File: vmray_consts.py
 #
-# Copyright (c) VMRay GmbH 2017-2025
+# Copyright (c) VMRay GmbH 2017-2026
 #
 # Licensed under Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0.txt)
 VMRAY_JSON_SERVER = "vmray_server"
@@ -46,7 +46,6 @@ ACTION_ID_VMRAY_GET_SCREENSHOTS = "get_screenshots"
 VMRAY_DEFAULT_PASSWORD = b"infected"
 DEFAULT_TIMEOUT = 60 * 10
 INDEX_LOG_DELIMITER = "|"
-INDEX_LOG_FILE_NAME_POSITION = 3
 
 SAMPLE_TYPE_MAPPING = {
     "Apple Script": "apple script",
